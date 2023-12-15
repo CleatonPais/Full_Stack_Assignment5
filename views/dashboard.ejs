@@ -1,0 +1,25 @@
+<%- include('partials/header')        %>
+  <%- include('partials/nav')            %>
+    
+  <div class="nav-container">
+    <h1>Welcome to the DriveTest Buddy Dashboard</h1>
+
+    <img id="dashboardImage" src="../images/carImage3.png" alt="Dashboard Image">
+
+    <p class="info">
+      You can book G2/G Drive test from this Kiosk
+    </p>
+
+    <% if (userData.testResult != null) { %>
+      <% if (userData.testResult === 'pass') { %>
+        <h2>Congratulations, you have passed your <%= userData.testType %> test</h2>
+      <% } else if (userData.testResult === 'fail') { %>
+        <h2>Sorry, you failed the <%= userData.testType %> test</h2>
+      <% } %>
+      <p>Examiner Comments: <%= userData.comments %> </p>
+    <% } %>
+
+  </div>
+
+</body>
+</html>

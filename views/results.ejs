@@ -1,0 +1,32 @@
+<%- include('partials/header.ejs')   %>
+    <%- include('partials/nav')            %>
+
+    <div class="container">
+        <h1>Results</h1>
+
+        <table class="results-table">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th class="paddingLeft15">Last Name</th>
+                <th class="paddingLeft15">Plate No</th>
+                <th class="paddingLeft15">Test Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (const result of resultList) { %>
+                <tr>
+                  <td><%= result.firstName %></td>
+                  <td class="paddingLeft15"><%= result.lastName %></td>
+                  <td class="paddingLeft15"><%= result.carDetails.plateNo %></td>
+                  <td class="paddingLeft15">
+                    <%= result.testResult.toUpperCase() %>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

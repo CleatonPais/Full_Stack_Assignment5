@@ -1,0 +1,131 @@
+<%- include('partials/header.ejs')   %>
+<%- include('partials/nav')            %>
+
+  <div class="container">
+    <h1>G Test</h1>    
+          <!-- <div class="form-group"> -->
+              <!-- Name input-->
+              <!-- <input class="form-control" id="name" type="text" placeholder="License number *"  name="licenseNo" required/>
+              <div class="invalid-feedback" data-sb-feedback="name:required">Enter valid license number</div>
+            </div> -->
+
+            <div class="user-details">
+  
+              <% if (user_matched.firstName!='nil') { %>
+
+                <% if (user_matched.testResult != null) { %>
+                  <% if (user_matched.testResult === 'pass') { %>
+                    <h2>Congratulations, you have passed your <%= user_matched.testType %> test</h2>
+                  <% } else if (user_matched.testResult === 'fail') { %>
+                    <h2>Sorry, you failed the <%= user_matched.testType %> test</h2>
+                    <h3>Wait for 3 weeks until you book the next test</h3>
+                  <% } %>
+
+                  <p>Examiner Comments: <%= user_matched.comments %> </p>
+                <% } else if (userHasAppointment) { %>
+                  <p>You have booked an appointment for <%= userHasAppointment.testType %> test:</p>
+                  <p>Date: <%= userHasAppointment.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZoneName: 'short' }) %></p>
+                  <p>Time: <%= userHasAppointment.time %></p>
+                <% } else { %>
+                  <!-- Iterate over each date and display available time slots -->
+                  <div class="appointment-form">
+                    <table>
+                      <tr>
+                        <th>Date</th>
+                        <th>Available Time Slots</th>
+                      </tr>
+                      <% dateAndTimeSlots.forEach(dateAndSlots => { %>
+                        <tr>
+                          <td class="appointment-dates"><%= new Date(new Date(dateAndSlots.date).setDate(new Date(dateAndSlots.date).getDate() + 1)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZoneName: 'short' }) %></td>
+                          <td>
+                            <form action="/bookingG" method="post">
+                              <input type="hidden" name="date" value="<%= dateAndSlots.date %>">
+                              <input type="hidden" name="testType" value="G">
+                              <!-- Add a loop here to display buttons based on the available time slots -->
+                              <% dateAndSlots.availableTimeSlots.forEach(slot => { %>
+                                <button type="submit" name="time" class="book-btn" value="<%= slot %>">Book <%= slot %></button>
+                              <% }); %>
+                            </form>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    </table>
+                  </div>
+                <% } %>
+               
+                <h4 class="subheader">User Information</h4>
+                <table class="table table-bordered" id="user-table">
+                  <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Car Make</th>
+                    <th>Car Model</th>
+                    <th>Car Year</th>
+                    <th>Plate No.</th>
+                  </tr>
+                  <tr>
+                    <td class="lightGrey"><%= user_matched.firstName %></td>
+                    <td class="lightGrey"><%= user_matched.lastName %></td>
+                    <td class="lightGrey"><%= user_matched.age %></td>
+                    <td><%= user_matched.carDetails.make %></td>
+                    <td><%= user_matched.carDetails.model %></td>
+                    <td><%= user_matched.carDetails.year %></td>
+                    <td><%= user_matched.carDetails.plateNo %></td>
+                  </tr>
+                </table>
+            
+                <div class="update_form">
+            
+                  <h3 class="text-center updateCarHeader">Update Car Details</h3>
+            
+                  <form method="post" action="/G">
+                    <div class="form-group ">
+                     
+                      <section>
+                        <h4>Car Information</h4>
+                        <div class="form-group">
+                            <label for="car_make">Car Name*</label>
+                            <input type="text" id="make" name="car_make" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="car_model">Car Model*</label>
+                            <input type="text" id="model" name="car_model" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="car_year">Car Year*</label>
+                            <input type="number" id="year" name="car_year" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="car_plateNo">License Plate Number*</label>
+                            <input type="text" id="plate_no" name="car_plateNo" class="form-control" required>
+                        </div>
+                        <input name="id" value="<%= user_matched._id %>" hidden/>
+                        <input name="licenseNo" value="<%= user_matched.licenseNo %>" hidden/>
+                    </section>
+                    </div>
+                    
+                    <div class="text-center">
+                      <button class="btn btn-primary btn-xl text-uppercase " id="submitButton" type="submit">Update</button>
+            
+                    </div>
+                  </form>
+                </div>
+                  
+            
+                <% }else{ %>
+                  <div class="text-center">
+                    <h5>Enter you Details at G2 Page !!</h5>
+                    <a href="/G2"><button class="btn btn-primary btn-xl text-uppercase goToG2">Go to G2</button></a>
+                  </div>
+                  <% } %>
+            </div>
+            <!-- <button class="btn btn-primary btn-xl text-uppercase " id="submitButton" type="submit">Submit</button> -->
+        <!-- </form> -->
+  </div>
+
+
+
+
+</body>
+</html>

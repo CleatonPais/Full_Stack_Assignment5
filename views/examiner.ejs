@@ -1,0 +1,150 @@
+<%- include('partials/header.ejs')   %>
+    <%- include('partials/nav')            %>
+
+    <div class="container">
+        <h1>Examiner Page</h1>
+
+        <div>
+            <label>
+                <input type="radio" name="testTypeFilter" value="all" checked onchange="applyFilter()"> All
+            </label>
+            <label>
+                <input type="radio" name="testTypeFilter" value="G" onchange="applyFilter()"> G
+            </label>
+            <label>
+                <input type="radio" name="testTypeFilter" value="G2" onchange="applyFilter()"> G2
+            </label>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th class="paddingLeft15">Last Name</th>
+                <th class="paddingLeft15">Test Type</th>
+                <th class="paddingLeft15">Car Make</th>
+                <th class="paddingLeft15">Car Model</th>
+                <th class="paddingLeft15">Appointment Date</th>
+                <th class="paddingLeft15">Appointment Time</th>
+                <th class="paddingLeft15">Show More</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (appointmentList && appointmentList.length > 0) { %>
+                <% appointmentList.forEach(user => { %>
+                <% user.appointments.forEach(appointment => { %>
+                    <tr data-test-type="<%= user.testType %>">
+                    <td><%= user.firstName %></td>
+                    <td class="paddingLeft15"><%= user.lastName %></td>
+                    <td class="paddingLeft15"><%= user.testType %></td>
+                    <td class="paddingLeft15"><%= user.carDetails.make %></td>
+                    <td class="paddingLeft15"><%= user.carDetails.model %></td>
+                    <td class="paddingLeft15"><%= appointment.date.toISOString().split('T')[0] %></td>
+                    <td class="paddingLeft15"><%= appointment.time %></td>
+                    
+                    <td>
+                        <button onclick="openDialog('<%= user._id %>')">Show More</button>
+                        <!-- Additional details container (hidden by default) -->
+                        <dialog id="<%= user._id %>_dialog" class="details-container">
+                            <div class="details-header">
+
+                                <h2>User Details</h2>
+                                <button onclick="closeDialog('<%= user._id %>')">Close</button>
+                            </div>
+                            <table>
+                                <tr>
+                                  <td><strong>First Name:</strong></td>
+                                  <td><%= user.firstName %></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Last Name:</strong></td>
+                                  <td><%= user.lastName %></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Test Type:</strong></td>
+                                  <td><%= user.testType %></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Car Make:</strong></td>
+                                  <td><%= user.carDetails.make %></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Car Model:</strong></td>
+                                  <td><%= user.carDetails.model %></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Appointment Date:</strong></td>
+                                  <td><%= appointment.date.toISOString().split('T')[0] %></td>
+                                </tr>
+                                <tr>
+                                  <td><strong>Appointment Time:</strong></td>
+                                  <td><%= appointment.time %></td>
+                                </tr>
+                            </table>
+
+                            <h3>Examiner Remarks</h3>
+                            <form action="/examiner" method="post">
+                                <input type="hidden" value="<%= user._id %>" name="userID"/>
+                                <input type="hidden" value="<%= appointment._id %>" name="appointmentID"/>
+                                <textarea id="comments" name="comments" placeholder="Comments"></textarea>
+                                <div>
+                                    <input type="radio" id="pass" name="testResult" value="pass" required/>
+                                    <label for="pass">Pass</label>
+
+                                    <input type="radio" id="fail" name="testResult" value="fail" />
+                                    <label for="fail">Fail</label>
+                                </div>
+                                <button class="retrieveBttn" type="submit">Submit</button>
+                            </form>
+                         
+                        </dialog>
+                    </td>
+
+                    </tr>
+                <% }) %>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                <td colspan="7">No appointments found</td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Set the initial filter value based on the first checked row's test type
+            const initialFilter = document.querySelector('tbody tr:visible').dataset.testType || 'all';
+            document.querySelector(`input[name="testTypeFilter"][value="${initialFilter}"]`).checked = true;
+            applyFilter();
+        });
+
+        function openDialog(userId) {
+            const dialog = document.getElementById(`${userId}_dialog`);
+            dialog.showModal();
+        }
+
+        function closeDialog(userId) {
+            const dialog = document.getElementById(`${userId}_dialog`);
+            dialog.close();
+        }
+
+        function applyFilter() {
+            const filterValue = document.querySelector('input[name="testTypeFilter"]:checked').value;
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const rowTestType = row.dataset.testType; // Assuming you have set the dataset in the EJS template
+                if (filterValue === 'all' || rowTestType === filterValue) {
+                row.style.display = 'table-row';
+                } else {
+                row.style.display = 'none';
+                }
+            });
+        }          
+    </script>
+
+</body>
+</html>

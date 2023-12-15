@@ -1,0 +1,52 @@
+<%- include('partials/header.ejs')   %>
+<%- include('partials/nav')            %>
+
+<div class="container">
+    <h1>Add Appointment Slots</h1>
+
+    <%
+      const yesterday = new Date(new Date().toISOString().split('T')[0]);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayDateString = yesterday.toISOString().split('T')[0];
+    %>
+
+<form action="appointments" method="get" >
+    <label for="date" >Select Date:</label>
+    <input type="date" id="date" name="date" min="<%= yesterdayDateString  %>" value="<%= selectedDate %>" required>
+
+    <div>
+      <label> Test Type</label>
+      <div class="testType">
+        <div>
+          <input type="radio" name="testType" value="G2" id="G2" <%= testType === 'G2' ? 'checked' : '' %> />
+          <label for="G2">G2</label>
+        </div>
+
+        <div> 
+          <input type="radio" name="testType" value="G" id="G" <%= testType === 'G' ? 'checked' : '' %> />
+          <label for="G">G</label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="showSlotsButton">Show Available Time Slots</button>
+</form>
+
+<% if (selectedDate) { %>
+  <form action="appointments" method="post" class="timeslotForm">
+    <label for="time">Time:</label>
+    <div class="timeslots">
+      <!-- Display available time slots as buttons -->
+      <% availableTimeSlots.forEach(slot => {  %>
+        <!-- Disable button if the time slot is already booked -->
+        <button type="submit" class="timeslotBtn" name="time" value="<%= slot %>" <% if (bookedTimeSlots.includes(slot)) { %>disabled<% } %>><%= slot %></button>
+      <% }); %>
+    </div>
+
+    <div class="timeSlot_SubmitBtn">
+      <button class="btn btn-primary btn-xl text-uppercase" id="appointmentButton" type="submit">Add Appointment</button>
+    </div>
+  </form>
+<% } %>
+
+</div>

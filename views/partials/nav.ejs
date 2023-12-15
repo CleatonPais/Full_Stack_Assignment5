@@ -1,0 +1,27 @@
+<div id="nav" class="navbar">
+    <a class="websiteName" href="/">DriveTest Buddy</a>
+    
+    <div class="nav-links">
+
+        <%if(isLoggedIn){%>
+            <a href="../dashboard">Dashboard</a>
+            <%if(userType=='Driver'){%>
+                <a href="../G2">G2_Test</a>
+                <a href="../G">G_Test</a>
+            <%}%>
+
+            <%if(userType=='Admin'){%>
+                <a href="../getDate">Appointments</a>
+                <a href="../results">Results</a>
+            <%}%>
+
+            <% if (userType == 'Examiner'){ %>
+                <a href="../examiner">Examiner</a>
+            <%}%>  
+             
+            <a href="../logout">LogOut</a>
+        <% }else{ %>
+            <a href="../login">Login</a>
+        <%}%>
+    </div>
+</div>

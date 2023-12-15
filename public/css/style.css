@@ -1,0 +1,283 @@
+html, body {
+    height: 100%;
+    margin-top: 0;
+    padding: 0;
+}
+
+.nav-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rosybrown;
+    padding: 30px;
+}
+
+.websiteName {
+    font-size: 24px; 
+    font-weight: bold;
+    color: white; 
+    text-decoration: none;
+}
+
+.websiteName:hover {
+    color: white;
+    text-decoration: none !important;
+}
+
+/* Style the navigation links */
+.nav-links a {
+    color: white; 
+    text-decoration: none;
+    margin-left: 22px; 
+    font-weight: 700;
+}
+
+.nav-links a:hover {
+    /* text-decoration: underline; */
+    color: rgb(118, 7, 29);
+}
+
+/* Style dashboard message */
+h1 {
+    font-size: 30px;
+    margin-top: 60px;
+    color: crimson;
+    padding-top: 25px;
+}
+
+/* Style navigation links */
+
+#dashboardImage {
+    max-width: 70%;
+    margin-top: 20px;
+}
+
+.info {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.g2container {
+    text-align: center;
+    margin: 30px auto;
+    padding: 20px; 
+}
+
+form {
+    max-width: 70%;
+    margin: 30px auto;
+    /* padding: 20px; */
+}
+
+/* Style the container */
+.container {
+    text-align: center;
+    width: 100%;
+    /* background-color: #f7f7f7;  */
+    border-radius: 5px; 
+    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);  */
+    /* background-color: #F7C0C0; */
+    background-color:  #FFEDED;
+    /* background-color: #FFC6B8; */
+    /* background-color: #FFDAC6; */
+    padding-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+}
+
+/* Style the login button */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #297fb8;  
+}
+
+/* Style the "Register here" link */
+.register {
+    margin-top: 15px;
+}
+
+p a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+
+.userUpdateContainer {
+    text-align: center;
+    width: 87%;
+    /* max-width: 90%; */
+    margin: 30px auto;
+    padding: 20px;
+    background-color:  #FFEDED;
+}
+
+.userUpdateDetails {
+    margin-top: 50px;
+    color: crimson;
+}
+
+.btn-update {
+    width: 30%;
+    padding: 10px;
+    background-color: #007bff; 
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.retrieveBttn {
+    margin-top: 23px;
+}
+
+.lightGrey {
+    background-color: lightgray !important;
+}
+
+.image-container {
+    background-image: url('../images/carImage3.png');
+    width: 100%; 
+    height: auto; 
+    display: block;
+    opacity: 0.5;
+}
+
+.UserType {
+    padding-bottom: 20px;
+}
+
+.subheader {
+    padding: 15px;
+}
+
+.updateCarHeader {
+    margin-top: 40px;
+}
+
+.goToG2 {
+    width: 20%;
+    margin-top: 15px;
+}
+
+#appointmentButton {
+    margin-top: 20px;
+    width: 50%;
+}
+
+/* Style the "Show Available Time Slots" button */
+.showSlotsButton {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+/* Add hover effect for the button */
+.showSlotsButton:hover {
+    background-color: #0056b3; 
+}
+
+/* Style the button in the disabled state */
+.showSlotsButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.timeslotBtn {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Style the disabled time slot buttons */
+.timeslotBtn[disabled] {
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.timeslotBtn:hover {
+    background-color: #f5f5f5;
+    border-color: #999;
+}
+
+.appointment-form {
+    margin-left: 25px;
+}
+
+/* Add these styles to your existing CSS file or create a new one */
+
+.book-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #3498db; 
+    color: #ffffff; 
+    border: 1px solid #3498db; 
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.book-btn:hover {
+    background-color: #297fb8; 
+    color: #ffffff; 
+}
+
+.paddingLeft15 {
+    padding-left: 20px;
+}
+
+.details-container {
+    width: 35%;
+}
+
+textarea {
+    width: 100%;
+}

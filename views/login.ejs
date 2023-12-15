@@ -1,0 +1,33 @@
+<%- include('partials/header.ejs')   %>
+    <%- include('partials/nav')            %>
+
+    <div class="container">
+        <h1>Login to DriveTest Buddy</h1>
+        
+        <!-- Incorrect login message -->
+        <% if(incorrect_password_message){ %>
+            <p><%= incorrect_password_message %></p>
+        <% } %>
+
+        <% if(login_prompt){ %>
+            <p><%= login_prompt %></p>
+        <% } %>
+
+        <!-- Login form -->
+        <form id="contactForm" action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username*</label>
+                <input type="text" id="name" name="username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password*</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        
+        <!-- Registration page -->
+        <p class="register">Don't have an account? <a href="./registration" id="registrationLink">Register here</a></p>
+    </div>
+</body>
+</html>

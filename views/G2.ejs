@@ -1,0 +1,155 @@
+<%- include('partials/header.ejs')   %>
+<%- include('partials/nav')            %>
+
+
+<div class="container">
+    <h1>G2 Test</h1>
+
+    <% if (user_matched.licenseNo!='0' ) { %>
+        <% if (user_matched.testResult != null) { %>
+            <% if (user_matched.testResult === 'pass') { %>
+              <h2>Congratulations, you have passed your <%= user_matched.testType %> test</h2>
+
+            <% } else if (user_matched.testResult === 'fail') { %>
+              <h2>Sorry, you failed the <%= user_matched.testType %> test</h2>
+              <h3>Wait for 2 weeks until you book the next test</h3>
+            <% } %>
+
+            <p>Examiner Comments: <%= user_matched.comments %> </p>
+          <% } else if (userHasAppointment) { %>
+            <p>You have booked an appointment for <%= userHasAppointment.testType %> test:</p>
+            <p>Date: <%= userHasAppointment.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZoneName: 'short' }) %></p>
+            <p>Time: <%= userHasAppointment.time %></p>
+          <% } else { %>
+                <!-- Iterate over each date and display available time slots -->
+                <div class="appointment-form">
+                    <table>
+        
+                        <% dateAndTimeSlots.forEach(dateAndSlots => { %>
+                            <tr>
+                                <th>Date</th>
+                                <th>Available Time Slots</th>   
+                            </tr>
+                            <tr>
+                                <td class="appointment-dates"><%= new Date(new Date(dateAndSlots.date).setDate(new Date(dateAndSlots.date).getDate() + 1)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZoneName: 'short' }) %></td>
+                                <td>
+                                    <form action="/booking" method="post" >
+                                        <input type="hidden" name="date" value="<%= dateAndSlots.date %>">
+                                        <input type="hidden" name="testType" value="G2">
+                                        <!-- Add a loop here to display buttons based on the available time slots -->
+                                        <% dateAndSlots.availableTimeSlots.forEach(slot => { %>
+                                            <button type="submit" name="time" class="book-btn" value="<%= slot %>">Book <%= slot %></button>
+                                        <% }); %>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </table>
+                </div>
+                <% } %>
+        
+                <h4 class="subheader">Your Details</h4>
+                <div class="form-group">
+                    <table class="table table-bordered" id="user-table">
+                        <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Car Make</th>
+                        <th>Car Model</th>
+                        <th>Car Year</th>
+                        <th>Plate No.</th>
+                        </tr>
+                            <tr>
+                            <td><%= user_matched.firstName %></td>
+                            <td><%= user_matched.lastName %></td>
+                            <td><%= user_matched.age %></td>
+                            <td><%= user_matched.carDetails.make %></td>
+                            <td><%= user_matched.carDetails.model %></td>
+                            <td><%= user_matched.carDetails.year %></td>
+                            <td><%= user_matched.carDetails.plateNo %></td>
+                            </tr>
+                        </table>
+    <%}else{%>
+        <h4 class="subheader">Enter Your details</h4>
+        <div class="form-group">
+
+            <!-- Personal Information Section -->
+            <form id="G2Form" action="G2" method="post">
+                <section>
+                    <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label for="g2_firstName">First Name*</label>
+                            <input type="text" id="name" name="g2_firstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="g2_lastName">Last Name*</label>
+                            <input type="text" id="name" name="g2_lastName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="g2_licenseNo">License Number*</label>
+                            <input type="number" id="license-number" name="g2_licenseNo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age*</label>
+                            <input type="number" id="Age" name="age" class="form-control" required>
+                        </div>
+                </section>
+
+                <!-- Car Information Section -->
+                <section>
+                    <h3>Car Information</h3>
+                    <div class="form-group">
+                        <label for="car_make">Car Name*</label>
+                        <input type="text" id="make" name="car_make" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="car_model">Car Model*</label>
+                        <input type="text" id="model" name="car_model" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="car_year">Car Year*</label>
+                        <input type="number" id="year" name="car_year" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="car_plateNo">License Plate Number*</label>
+                        <input type="text" id="plate_no" name="car_plateNo" class="form-control" required>
+                    </div>
+                </section>
+                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div>
+        </div>
+
+        <button id="submitButton" type="submit" class="btn btn-primary">Submit Request</button>
+    </form>
+</div>
+<%}%>
+
+<!--  JavaScript code to handle the confirmation dialog -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all buttons with the class 'book-btn'
+        const bookButtons = document.querySelectorAll('.book-btn');
+
+        // Add click event listener to each button
+        bookButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Get the date and time values from the button's data attributes
+                const date = button.getAttribute('data-date');
+                const time = button.getAttribute('data-time');
+
+                // Display a confirmation dialog
+                const isConfirmed = confirm(`Do you want to book the appointment on ${date} at ${time}?`);
+
+                // If the user confirms, submit the form
+                if (isConfirmed) {
+                    // Find the closest form element and submit it
+                    button.closest('form').submit();
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>
